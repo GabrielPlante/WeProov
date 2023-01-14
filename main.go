@@ -12,7 +12,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-//The base page
+//First the functions handling each page
 func homePage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, view.MainPage())
 }
@@ -31,6 +31,7 @@ func postUser(w http.ResponseWriter, r *http.Request) {
 	database.AddUser(user)
 }
 
+//No view for this one because too time consuming
 func getUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "List of every user:\n")
 	users := database.GetAllUsers()
@@ -50,7 +51,7 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 	database.DeleteUser(r.FormValue("username"))
 }
 
-//Function handling the request of the user
+//Function handling the request of the user, redirecting to previous functions
 func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", homePage)
@@ -59,15 +60,12 @@ func handleRequests() {
 
 	router.HandleFunc("/user", getUser).Methods("GET")
 	router.HandleFunc("/user", postUser).Methods("POST")
-	router.HandleFunc("/deleteuser", deleteUser)
+	router.HandleFunc("/deleteuser", deleteUser) //Delete method won't work
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
 
 func main() {
-	/*users := []User{
-		User{Username: "Olivier",
-			PasswordHash: "sdflkmqsdvnqsrlqsm",
-			Email:        "oliver.du69@gmail.com"},
-	}*/
+	//database.Connect()
+	//Just launch the server
 	handleRequests()
 }

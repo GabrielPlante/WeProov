@@ -70,6 +70,7 @@ func PostUser() string {
 	`
 }
 
+//The form
 func RemoveUser() string {
 	return `
 	<!DOCTYPE html>
@@ -89,6 +90,7 @@ func RemoveUser() string {
 	`
 }
 
+//The action
 func DeleteUser() string {
 	return `
 	<!DOCTYPE html>
